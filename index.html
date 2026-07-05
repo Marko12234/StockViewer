@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockViewer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>StockViewer</h1>
+    <p>Aktuelle Kurse auf einen Blick</p>
+  </header>
+
+  <div class="search-row">
+    <input type="text" id="symbolInput" placeholder="Firmenname oder Kürzel (z.B. Apple, TSLA)" />
+    <button class="search-btn" id="searchBtn" onclick="fetchStock()">Suchen</button>
+  </div>
+
+  <div class="quick-label">Schnellauswahl</div>
+  <div class="quick-buttons">
+    <button class="quick-btn" onclick="fetchByName('Apple',     'AAPL')">Apple</button>
+    <button class="quick-btn" onclick="fetchByName('Tesla',     'TSLA')">Tesla</button>
+    <button class="quick-btn" onclick="fetchByName('Google',    'GOOGL')">Google</button>
+    <button class="quick-btn" onclick="fetchByName('Amazon',    'AMZN')">Amazon</button>
+    <button class="quick-btn" onclick="fetchByName('Microsoft', 'MSFT')">Microsoft</button>
+    <button class="quick-btn" onclick="fetchByName('Netflix',   'NFLX')">Netflix</button>
+    <button class="quick-btn" onclick="fetchByName('Nvidia',    'NVDA')">Nvidia</button>
+    <button class="quick-btn" onclick="fetchByName('Meta',      'META')">Meta</button>
+    <button class="quick-btn" onclick="fetchByName('Disney',    'DIS')">Disney</button>
+    <button class="quick-btn" onclick="fetchByName('Coca-Cola', 'KO')">Coca-Cola</button>
+    <button class="quick-btn" onclick="fetchByName('Visa',      'V')">Visa</button>
+    <button class="quick-btn" onclick="fetchByName('Nike',      'NKE')">Nike</button>
+    <button class="quick-btn" onclick="fetchByName('McDonald\'s','MCD')">McDonald's</button>
+    <button class="quick-btn" onclick="fetchByName('Adobe',     'ADBE')">Adobe</button>
+  </div>
+
+  <div class="info-note">
+    Aktuell nur US-Firmen verfügbar (z.B. Apple, Tesla). Europäische
+    Firmen folgen vielleicht später.
+  </div>
+
+  <div class="error"  id="errorBox"></div>
+  <div class="loader" id="loader">Lade Daten…</div>
+
+  <div class="card" id="card">
+    <div class="stock-header">
+      <div>
+        <div class="stock-name-big" id="displayName">—</div>
+        <div class="stock-ticker"   id="displayTicker">—</div>
+      </div>
+      <div class="stock-price">
+        <div class="price-value"  id="displayPrice">—</div>
+        <div class="price-change" id="displayChange">—</div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Eröffnung</div>
+        <div class="stat-value" id="statOpen">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Tageshoch</div>
+        <div class="stat-value" id="statHigh">—</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Tagestief</div>
+        <div class="stat-value" id="statLow">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note" id="noteBox">Daten: Finnhub.io · Echtzeit</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
