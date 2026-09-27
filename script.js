@@ -1,5 +1,4 @@
-const API_KEY = "d8h9ab1r01qhjpmr6gg0d8h9ab1r01qhjpmr6ggg";
-
+const BACKEND_URL = "http://localhost:3000";
 
 // Enter-Taste
 document.getElementById("symbolInput").addEventListener("keydown", e => {
@@ -20,12 +19,7 @@ async function fetchStock(overrideSymbol = null) {
     showError("Bitte einen Firmennamen oder ein Kürzel eingeben.");
     return;
   }
-
-  if (API_KEY === "DEIN_API_KEY_HIER") {
-    showError("API Key fehlt. Bitte in script.js eintragen (Zeile: const API_KEY = ...)");
-    return;
-  }
-
+  
   setLoading(true);
   hideError();
   hideCard();
@@ -37,10 +31,8 @@ async function fetchStock(overrideSymbol = null) {
     let companyName = null;
 
     if (!symbol) {
-      const searchRes = await fetch(
-        `https://finnhub.io/api/v1/search?q=${encodeURIComponent(input)}&token=${API_KEY}`
-      );
-      if (!searchRes.ok) throw new Error("Suche fehlgeschlagen. Bitte später erneut versuchen.");
+      const searchRes = await fetch(`${BACKEND_URL}/api/search?q=${encodeURIComponent(input)}`);
+      if (!searchRes.ok) throw new Error("Suche fehlgeschlagen. Läuft das Backend? (siehe README)");
 
       const searchData = await searchRes.json();
       const match = searchData.result?.find(r => r.type === "Common Stock");
@@ -53,23 +45,19 @@ async function fetchStock(overrideSymbol = null) {
       companyName = match.description;
     }
 
-    // Parallele Requests: Kurs + Firmenprofil (beide im Free-Tier enthalten)
-    const [quoteRes, profileRes] = await Promise.all([
-      fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${API_KEY}`),
-      fetch(`https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${API_KEY}`)
-    ]);
+    // Kurs + Firmenprofil vom eigenen Backend holen (das holt es intern von Finnhub)
+    const dataRes = await fetch(`${BACKEND_URL}/api/stock/${symbol}`);
 
-    if (!quoteRes.ok || !profileRes.ok) {
-      throw new Error("Daten konnten nicht geladen werden. Bitte später erneut versuchen.");
+    if (!dataRes.ok) {
+      throw new Error("Daten konnten nicht geladen werden. Läuft das Backend? (siehe README)");
     }
 
-    const quote   = await quoteRes.json();
-    const profile = await profileRes.json();
+    const { quote, profile } = await dataRes.json();
 
     if (!quote.c || quote.c === 0) {
       throw new Error(`Keine Kursdaten für "${input}" gefunden.`);
     }
-
+ 
     // Name: Profil > Suche > Symbol als Fallback
     const displayName = profile.name || companyName || symbol;
 
