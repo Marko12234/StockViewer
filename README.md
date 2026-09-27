@@ -13,7 +13,8 @@ quick-select buttons for popular stocks.
 ## Setup
 
 1. Get a free API key at [finnhub.io](https://finnhub.io)
-2. Open `script.js` and replace the value of `API_KEY` with your key
-3. Open `index.html` in your browser. Now you're done.
+2. In the `backend` folder, rename `.env.example` to `.env` and paste your key in
+3. In the `backend` folder, run `npm install` then `npm start`
+4. Open `index.html` with your browser
 
 > Note: Only US stocks are supported. European stocks may be added later.
