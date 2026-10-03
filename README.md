@@ -18,3 +18,7 @@ quick-select buttons for popular stocks.
 4. Open `index.html` with your browser
 
 > Note: Only US stocks are supported. European stocks may be added later.
+
+## Challenges & Learnings
+
+Earlier versions of this project exposed the API key directly in frontend code. I knew this wasn't ideal, but didn't yet have the backend skills to fix it properly. I've since revoked that API key and learned Node.js to rebuild this project with a minimal Express backend that keeps the API key server-side. Now the API key is never sent to the browser. This was a deliberate step to finally apply what I learned about not exposing secrets in public repos.
